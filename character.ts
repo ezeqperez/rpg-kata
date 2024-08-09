@@ -1,38 +1,51 @@
-class Personaje {
-    private _nivel: number;
-    private _vida: number;
-    private _estaVivo: boolean;
+export class Character {
+    private _level: number;
+    private _health: number;
+    private _isAlive: boolean;
   
     constructor() {
-      this._nivel = 1;
-      this._vida = 1000;
-      this._estaVivo = true;
+      this._level = 1;
+      this._health = 1000;
+      this._isAlive = true;
     }
   
-    get nivel() {
-      return this._nivel;
+    get level() {
+      return this._level;
     }
   
-    get vida() {
-      return this._vida;
+    get health() {
+      return this._health;
     }
   
-    get estaVivo() {
-      return this._estaVivo;
+    get isAlive() {
+      return this._isAlive;
     }
   
-    recibirDanio(danio: number) {
-      this._vida -= danio;
-      if (this._vida <= 0) {
-        this._estaVivo = false;
+    receiveDamage(damage: number) {
+        if (damage >= this._health) {
+            this._health = 0
+            this._isAlive = false
+        } else {
+            this._health -= damage;
       }
     }
-  
-    curarse(cantidad: number) {
-      this._vida += cantidad;
-      if (this._vida > 1000) {
-        this._vida = 1000;
-      }
+
+    deliverDamage(character: Character, damage: number) {
+        character.receiveDamage(damage);
     }
+  
+    receiveHeal(amount: number) {
+        if (this._isAlive) {
+            this._health += amount
+            if (this._health > 1000) {
+                this._health = 1000;
+            }
+        }
+    }
+
+    deliverHeal(character: Character, heal: number) {
+        character.receiveHeal(heal);
+    }
+
 }
   
