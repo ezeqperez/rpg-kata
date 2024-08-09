@@ -30,53 +30,53 @@ describe('Character', () => {
     });
 
     it('un personaje debe hacerle daño a otro personaje', () => {
-        const characterAttacker = new Character();
-        const characterDefender = new Character();
+        const attacker = new Character();
+        const defender = new Character();
 
-        characterAttacker.deliverDamage(characterDefender, 500);
-        expect(characterDefender.health).toBe(500);
-        expect(characterDefender.isAlive).toBe(true);
+        attacker.deliverDamage(defender, 500);
+        expect(defender.health).toBe(500);
+        expect(defender.isAlive).toBe(true);
     });
 
     it('un personaje debe hacer daños consecutivos', () => {
-        const characterAttacker = new Character();
-        const characterDefender = new Character();
+        const attacker = new Character();
+        const defender = new Character();
 
-        characterAttacker.deliverDamage(characterDefender, 1);
-        characterAttacker.deliverDamage(characterDefender, 10);
-        characterAttacker.deliverDamage(characterDefender, 100);
-        expect(characterDefender.health).toBe(889);
-        expect(characterDefender.isAlive).toBe(true);
+        attacker.deliverDamage(defender, 1);
+        attacker.deliverDamage(defender, 10);
+        attacker.deliverDamage(defender, 100);
+        expect(defender.health).toBe(889);
+        expect(defender.isAlive).toBe(true);
     });
 
     it('un personaje debe hacer daños consecutivos mortales, la vida debe quedar en 0 y matarlo', () => {
-        const characterAttacker = new Character();
-        const characterDefender = new Character();
+        const attacker = new Character();
+        const defender = new Character();
 
-        characterAttacker.deliverDamage(characterDefender, 1000);
-        characterAttacker.deliverDamage(characterDefender, 10);
-        characterAttacker.deliverDamage(characterDefender, 100);
-        expect(characterDefender.health).toBe(0);
-        expect(characterDefender.isAlive).toBe(false);
+        attacker.deliverDamage(defender, 1000);
+        attacker.deliverDamage(defender, 10);
+        attacker.deliverDamage(defender, 100);
+        expect(defender.health).toBe(0);
+        expect(defender.isAlive).toBe(false);
     });
 
     it('un personaje debe hacerle daño igual a la vida del Defender y matarlo', () => {
-        const characterAttacker = new Character();
-        const characterDefender = new Character();
+        const attacker = new Character();
+        const defender = new Character();
 
-        characterAttacker.deliverDamage(characterDefender, 1000);
-        expect(characterDefender.health).toBe(0);
-        expect(characterDefender.isAlive).toBe(false);
+        attacker.deliverDamage(defender, 1000);
+        expect(defender.health).toBe(0);
+        expect(defender.isAlive).toBe(false);
     });
 
 
     it('un personaje debe hacerle daño mortalmente excesivo a otro personaje, matarlo y dejarlo en 0 de vida', () => {
-        const characterAttacker = new Character();
-        const characterDefender = new Character();
+        const attacker = new Character();
+        const defender = new Character();
 
-        characterAttacker.deliverDamage(characterDefender, 15000000000);
-        expect(characterDefender.health).toBe(0);
-        expect(characterDefender.isAlive).toBe(false);
+        attacker.deliverDamage(defender, 15000000000);
+        expect(defender.health).toBe(0);
+        expect(defender.isAlive).toBe(false);
     });
 
     it('un personaje debe recibir curación', () => {
