@@ -13,6 +13,10 @@ export class Character {
 		return this._level;
 	}
 
+	set level(level: number) {
+		this._level = level
+	}
+
 	get health() {
 		return this._health;
 	}
@@ -21,18 +25,21 @@ export class Character {
 		return this._isAlive;
 	}
 
-	receiveDamage(damage: number) {
-		if (damage >= this._health) {
-			this._health = 0
-			this._isAlive = false
-		} else {
-			this._health -= damage;
-		}
+	deliverDamage(character: Character, damage: number) {
+		if (this == character) return;
+
+		character.receiveDamage(this.calculateDamage(character, damage));
 	}
 
-	deliverDamage(character: Character, damage: number) {
-
-		character.receiveDamage(damage);
+	private calculateDamage(character: Character, damage: number) {
+		let levelGap = this._level - character.level
+		let damageModifier = 1
+		if (levelGap >= 5) {
+			damageModifier = 1.5
+		} else if (levelGap <= -5) {
+			damageModifier = 0.5
+		}
+		return damage * damageModifier
 	}
 
 	receiveHeal(amount: number) {
@@ -44,8 +51,12 @@ export class Character {
 		}
 	}
 
-	deliverHeal(character: Character, heal: number) {
-		character.receiveHeal(heal);
+	private receiveDamage(damage: number) {
+		if (damage >= this._health) {
+			this._health = 0
+			this._isAlive = false
+		} else {
+			this._health -= damage;
+		}
 	}
-
 }
