@@ -69,7 +69,6 @@ describe('Character', () => {
         expect(defender.isAlive).toBe(false);
     });
 
-
     it('un personaje debe hacerle daño mortalmente excesivo a otro personaje, matarlo y dejarlo en 0 de vida', () => {
         const attacker = new Character();
         const defender = new Character();
