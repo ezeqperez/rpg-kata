@@ -1,40 +1,34 @@
 Para inicializar el proyecto, sigue estos pasos:
 
-Inicializa el proyecto y añade TypeScript:
+## Inicializa el proyecto y añade TypeScript:
 
-```
+---
 npm init -y
 npm install --save-dev typescript
-```
+---
 
-Configura TypeScript:
+## Configura TypeScript:
 
-```
+---
 npx tsc --init
-```
+---
 
-Instala Jest y las demás dependencias:
+## Instala Jest y las demás dependencias:
 
-```
+---
 npm install --save-dev jest ts-jest @types/jest
-```
+---
 
-Configura Jest para TypeScript:
+## Configura Jest para TypeScript:
 
-```
+---
 npx ts-jest config:init
-```
+---
 
 Esto te permitirá realizar pruebas unitarias con Jest en tu proyecto TypeScript.
 
 
-
-
-
-
-
-
-Ejemplo de clase Typescript
+## Ejemplo de clase Typescript
 
 class User {
   // Atributos (propiedades)
@@ -67,7 +61,7 @@ class User {
   }
 }
 
-// Uso de la clase
+## Uso de la clase
 const user = new User("John", "Doe", 25);
 console.log(user.getFullName()); // "John Doe"
 console.log(user.isAdult());     // true
@@ -75,7 +69,7 @@ console.log(user.isAdult());     // true
 user.setAge(30);
 console.log(user.isAdult());     // true
 
-// Intentar establecer una edad negativa arrojará un error
+## Intentar establecer una edad negativa arrojará un error
 try {
   user.setAge(-5);
 } catch (error) {
@@ -83,8 +77,7 @@ try {
 }
 
 
-Ejemplo Jest
-
+## Ejemplo Jest
 
 import { User } from './User'; // Asegúrate de que la ruta sea correcta
 
