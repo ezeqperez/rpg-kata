@@ -1,0 +1,2 @@
+max range ranged: 20
+max range melee: 2
