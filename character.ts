@@ -1,23 +1,22 @@
-import { Range } from "./range";
 export class Character {
 	private _level: number;
 	private _health: number;
 	private _isAlive: boolean;
-	private _range: Range;
+	private _maxRange: number; 
 
 	constructor() {
 		this._level = 1;
 		this._health = 1000;
 		this._isAlive = true;
-		this._range = new Range(2);
+		this._maxRange = 2;
 	}
 
 	get maxRange() {
-		return this._range.range;
+		return this._maxRange;
 	}
 
-	set range(range: Range) {
-		this._range = range
+	set maxRange(maxRange: number) {
+		this._maxRange = maxRange
 	}
 
 	get level() {
@@ -60,6 +59,10 @@ export class Character {
 				this._health = 1000;
 			}
 		}
+	}
+	
+	isInRange(distance: number) {
+		return distance <= this._maxRange
 	}
 
 	private receiveDamage(damage: number) {
