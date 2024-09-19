@@ -1,4 +1,5 @@
 import { Character } from './character'; // Ajusta la ruta si tu archivo Character está en otro lugar
+import { Combat } from './combat';
 
 describe('Character', () => {
 
@@ -132,5 +133,83 @@ describe('Character', () => {
         attacker.level = 6
         attacker.deliverDamage(defender, 600)
         expect(defender.health).toBe(100)
+    });
+
+    it('un personaje puede unirse a una facción', () => {
+        const character = new Character();
+
+        character.enterFaction('Alianza')
+        expect(character.factions).toContain('Alianza')
+    });
+
+    it('un personaje puede unirse a más de una facción', () => {
+        const character = new Character();
+
+        character.enterFaction('Alianza')
+        character.enterFaction('Horda')
+        expect(character.factions).toStrictEqual(['Alianza', 'Horda'])
+    });
+
+    it('un personaje puede unirse a más de una facción y salir de una', () => {
+        const character = new Character();
+
+        character.enterFaction('Alianza')
+        character.enterFaction('Horda')
+        character.leaveFaction('Alianza')
+        expect(character.factions).toStrictEqual(['Horda'])
+    });
+
+    it('un personaje puede unirse a más de una facción y salir de todas', () => {
+        const character = new Character();
+
+        character.enterFaction('Alianza')
+        character.enterFaction('Horda')
+        character.leaveFaction('Alianza')
+        character.leaveFaction('Horda')
+        expect(character.factions).toStrictEqual([])
+    });
+
+    it('los personajes pertenecientes a la misma facción, son aliados', () => {
+        const character = new Character();
+        const ally = new Character();
+
+        character.enterFaction('Alianza')
+        ally.enterFaction('Alianza')
+        expect(character.isAlly(ally)).toBe(true)
+    });
+
+    it('los personajes pertenecientes a la diferentes facciones, no son aliados', () => {
+        const character = new Character();
+        const notAlly = new Character();
+
+        character.enterFaction('Alianza')
+        notAlly.enterFaction('Horda')
+        expect(character.isAlly(notAlly)).toBe(false)
+    });
+
+    it('los personajes pertenecientes a la misma facción, no se pueden hacer saño', () => {
+        const character = new Character();
+        const ally = new Character();
+
+        character.enterFaction('Alianza')
+        ally.enterFaction('Alianza')
+        character.deliverDamage(ally, 200);
+        expect(ally.health).toBe(1000)
+    });
+
+    it('los personajes pertenecientes a la misma facción, se pueden curar', () => {
+        const character = new Character();
+        const ally = new Character();
+        const notAlly = new Character();
+
+        const enterCombat = new Combat();
+
+        character.enterFaction('Horda')
+        ally.enterFaction('Horda')
+        notAlly.enterFaction('Alianza')
+        notAlly.deliverDamage(ally, 200);
+        expect(ally.health).toBe(800)
+        enterCombat.heal(character, ally, 200)
+        expect(ally.health).toBe(1000)
     });
 });

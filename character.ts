@@ -2,21 +2,27 @@ export class Character {
 	private _level: number;
 	private _health: number;
 	private _isAlive: boolean;
-	private _maxRange: number; 
+	private _maxRange: number;
+	private _factions: string[];
 
 	constructor() {
 		this._level = 1;
 		this._health = 1000;
 		this._isAlive = true;
 		this._maxRange = 2;
+		this._factions = [];
 	}
 
-	get maxRange() {
-		return this._maxRange;
+	get health() {
+		return this._health;
 	}
 
-	set maxRange(maxRange: number) {
-		this._maxRange = maxRange
+	get factions() {
+		return this._factions;
+	}
+
+	get isAlive() {
+		return this._isAlive;
 	}
 
 	get level() {
@@ -27,16 +33,16 @@ export class Character {
 		this._level = level
 	}
 
-	get health() {
-		return this._health;
+	get maxRange() {
+		return this._maxRange;
 	}
 
-	get isAlive() {
-		return this._isAlive;
+	set maxRange(maxRange: number) {
+		this._maxRange = maxRange
 	}
 
 	deliverDamage(character: Character, damage: number) {
-		if (this == character) return;
+		if (this == character || this.isAlly(character)) return;
 		
 		character.receiveDamage(this.calculateDamage(character, damage));
 	}
@@ -52,6 +58,26 @@ export class Character {
 		return damage * damageModifier
 	}
 
+	enterFaction(faction: string){
+		if(!this.factions.includes(faction)){
+			return this.factions.push(faction)
+		}
+	}
+
+	leaveFaction(faction: string){
+		this.factions.forEach((item, index) => {
+			if(item === faction) return this.factions.splice(index,1);
+		  });
+	}
+
+	isAlly(character: Character){
+		return this.factions.some(fation => character.factions.includes(fation))
+	}
+
+	isInRange(distance: number) {
+		return distance <= this._maxRange
+	}
+
 	receiveHeal(amount: number) {
 		if (this._isAlive) {
 			this._health += amount
@@ -59,10 +85,6 @@ export class Character {
 				this._health = 1000;
 			}
 		}
-	}
-	
-	isInRange(distance: number) {
-		return distance <= this._maxRange
 	}
 
 	private receiveDamage(damage: number) {

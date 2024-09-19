@@ -8,4 +8,10 @@ export class Combat {
             attacker.deliverDamage(defender, damage)
         }
     }
+
+    heal(healer: Character, defender: Character, amount: number){
+        if (healer.isAlly(defender)){
+            defender.receiveHeal(amount)
+        }
+    }
 }
