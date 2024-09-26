@@ -1,14 +1,27 @@
+import { Faction } from "./faction";
+
 export class Character {
 	private _level: number;
 	private _health: number;
 	private _isAlive: boolean;
 	private _maxRange: number; 
+	private _factions: Faction[];
 
 	constructor() {
 		this._level = 1;
 		this._health = 1000;
 		this._isAlive = true;
 		this._maxRange = 2;
+		this._factions = []
+	}
+
+	get factions() {
+		return this._factions;
+	}
+
+	addFaction(faction: Faction) {
+		this.factions.push(faction);
+		faction.addCharacter(this)
 	}
 
 	get maxRange() {
@@ -37,9 +50,10 @@ export class Character {
 
 	deliverDamage(character: Character, damage: number) {
 		if (this == character) return;
-		
+		if (this.factions.some(fac => fac.areAllys([this, character]))) return;
 		character.receiveDamage(this.calculateDamage(character, damage));
 	}
+
 
 	private calculateDamage(character: Character, damage: number) {
 		let levelGap = this._level - character.level
