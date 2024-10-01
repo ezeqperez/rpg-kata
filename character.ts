@@ -1,27 +1,30 @@
 import { Faction } from "./faction";
+import { HealthEntity } from "./healthEntity";
 
-export class Character {
+export class Character extends HealthEntity {
+	private _name: string;
 	private _level: number;
-	private _health: number;
-	private _isAlive: boolean;
 	private _maxRange: number; 
 	private _factions: Faction[];
 
 	constructor() {
+		super(1000)
+		this._name = "Character Unknown"
 		this._level = 1;
-		this._health = 1000;
-		this._isAlive = true;
 		this._maxRange = 2;
 		this._factions = []
 	}
 
-	get factions() {
-		return this._factions;
+	get name() {
+		return this._name;
 	}
 
-	addFaction(faction: Faction) {
-		this.factions.push(faction);
-		faction.addCharacter(this)
+	set name(name: string) {
+		this._name = name
+	}
+
+	get factions() {
+		return this._factions;
 	}
 
 	get maxRange() {
@@ -48,10 +51,19 @@ export class Character {
 		return this._isAlive;
 	}
 
-	deliverDamage(character: Character, damage: number) {
-		if (this == character) return;
-		if (this.factions.some(fac => fac.areAllys([this, character]))) return;
-		character.receiveDamage(this.calculateDamage(character, damage));
+	addFaction(faction: Faction) {
+		this.factions.push(faction);
+		faction.addCharacter(this)
+	}
+
+	deliverDamage(target: HealthEntity, damage: number) {
+		if (this == target) return;
+		if (target instanceof Character) {
+			if (this.isAlly(target)) return;
+			return target.receiveDamage(this.calculateDamage(target, damage));
+		}
+		target.receiveDamage(damage)
+
 	}
 
 
@@ -66,25 +78,26 @@ export class Character {
 		return damage * damageModifier
 	}
 
-	receiveHeal(amount: number) {
-		if (this._isAlive) {
-			this._health += amount
-			if (this._health > 1000) {
-				this._health = 1000;
-			}
-		}
+	receiveHeal(amount: number): void {
+        if (this._isAlive) {
+            this._health = Math.min(this._maxHealth, this._health + amount);
+        }
+    }
+
+	deliverHeal(target: Character, heal: number) {
+		if (!this.factions.some(fac => fac.areAllyss(this, target))) return;
+		target.receiveHeal(heal);
 	}
+
+	isAlly(target: Character): boolean {
+        return this.factions.some(faction => faction.areAllys([this, target]));
+    }
 	
 	isInRange(distance: number) {
 		return distance <= this._maxRange
 	}
 
-	private receiveDamage(damage: number) {
-		if (damage >= this._health) {
-			this._health = 0
-			this._isAlive = false
-		} else {
-			this._health -= damage;
-		}
+	onDestroy(): void {
+		console.log(`*${this._name}* has been killed!`);
 	}
 }

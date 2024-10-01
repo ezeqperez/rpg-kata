@@ -2,14 +2,14 @@ import { Character } from "./character";
 
 export class Faction {
 	private _name: string;
-	private _characters: Character[];
+	private _members: Character[];
 	private _limit: number;
 
 
 	constructor(name: string) {
 		this._name = name;
-		this._characters = new Array
-		this._limit = 2;
+		this._members = new Array
+		this._limit = 3;
 	}
 
 	get name() {
@@ -24,22 +24,22 @@ export class Faction {
 		this._name = name
 	}
 
-	get characters() {
-		return this._characters;
+	get members() {
+		return this._members;
 	}
 
 	addCharacter(character: Character) {
-		if(this.characters.length >= this.limit) return;
-		this.characters.push(character);
+		if(this.members.length >= this.limit) return;
+		this.members.push(character);
 	}
 
-	areAllys(charactersToValidate: Character[]) {
-		return charactersToValidate.every( c => this.characters.includes(c))
+	areAllys(membersToValidate: Character[]) {
+		return membersToValidate.every( c => this.members.includes(c))
 	}
 
 	
 	areAllyss(first: Character, second: Character) {
-		return this.characters.includes(first) && this.characters.includes(second) 
+		return this.members.includes(first) && this.members.includes(second) 
 	}
 
 }

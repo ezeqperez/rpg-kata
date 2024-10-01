@@ -28,8 +28,8 @@ describe('Faction', () => {
         firstCharacter.addFaction(horda)
         secondCharacter.addFaction(alizanza)
 
-        expect(horda.characters.includes(firstCharacter)).toBe(true)
-        expect(alizanza.characters.includes(secondCharacter)).toBe(true)
+        expect(horda.members.includes(firstCharacter)).toBe(true)
+        expect(alizanza.members.includes(secondCharacter)).toBe(true)
     });
 
 
