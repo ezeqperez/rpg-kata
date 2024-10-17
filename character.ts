@@ -1,7 +1,7 @@
 import { Faction } from "./faction";
-import { HealthEntity } from "./healthEntity";
+import { Damageable } from "./Damageable";
 
-export class Character extends HealthEntity {
+export class Character extends Damageable {
 	private _name: string;
 	private _level: number;
 	private _maxRange: number; 
@@ -43,12 +43,8 @@ export class Character extends HealthEntity {
 		this._level = level
 	}
 
-	get health() {
-		return this._health;
-	}
-
 	get isAlive() {
-		return this._isAlive;
+		return this.health > 0;
 	}
 
 	addFaction(faction: Faction) {
@@ -56,7 +52,7 @@ export class Character extends HealthEntity {
 		faction.addCharacter(this)
 	}
 
-	deliverDamage(target: HealthEntity, damage: number) {
+	deliverDamage(target: Damageable, damage: number) {
 		if (this == target) return;
 		if (target instanceof Character) {
 			if (this.isAlly(target)) return;
@@ -79,7 +75,7 @@ export class Character extends HealthEntity {
 	}
 
 	receiveHeal(amount: number): void {
-        if (this._isAlive) {
+        if (this.isAlive) {
             this._health = Math.min(this._maxHealth, this._health + amount);
         }
     }
@@ -95,9 +91,5 @@ export class Character extends HealthEntity {
 	
 	isInRange(distance: number) {
 		return distance <= this._maxRange
-	}
-
-	onDestroy(): void {
-		console.log(`*${this._name}* has been killed!`);
 	}
 }

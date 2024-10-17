@@ -1,6 +1,6 @@
-import { HealthEntity } from "./healthEntity";
+import { Damageable } from "./Damageable";
 
-export class Prop extends HealthEntity {
+export class Prop extends Damageable {
     private _name: string;
 
     constructor(name: string, maxHealth: number) {
@@ -12,7 +12,7 @@ export class Prop extends HealthEntity {
         return this._name;
     }
 
-    onDestroy(): void {
-        console.log(`*${this._name}* has been destroyed!`);
+    get isDestroyed(): boolean {
+        return this.health <= 0
     }
 }

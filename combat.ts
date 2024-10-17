@@ -1,10 +1,10 @@
 import { Character } from "./character";
-import { HealthEntity } from "./healthEntity";
+import { Damageable } from "./Damageable";
 
 export class Combat {
     constructor(){}
 
-    attack(attacker: Character, target: HealthEntity, distance: number, damage: number){
+    attack(attacker: Character, target: Damageable, distance: number, damage: number){
         if (!attacker.isInRange(distance)) return;
         attacker.deliverDamage(target, damage)
     }
